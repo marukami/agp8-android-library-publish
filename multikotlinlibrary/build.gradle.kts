@@ -1,7 +1,11 @@
+import org.gradle.api.plugins.internal.DefaultAdhocSoftwareComponent
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
+
 
 android {
     namespace = "com.example.kotlinlibrary"
@@ -17,13 +21,11 @@ android {
     publishing {
         multipleVariants("release") {
             allVariants()
-            includeBuildTypeValues("release")
-            includeFlavorDimensionAndValues("")
             withSourcesJar()
             withJavadocJar()
         }
     }
-    flavorDimensions += ""
+    flavorDimensions += "iceCream"
     productFlavors {
         register("chocolate")
         register("vanilla")
@@ -49,6 +51,16 @@ android {
 
 afterEvaluate {
     println("Components: ${components.joinToString { it.name }}")
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "com.my-company"
+                artifactId = "flavoured-kotlinlibrary"
+                version = "1.0"
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {

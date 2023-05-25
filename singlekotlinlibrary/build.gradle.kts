@@ -1,6 +1,9 @@
+import kotlin.reflect.jvm.jvmName
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -16,14 +19,23 @@ android {
 
     publishing {
         singleVariant("release") {
-            withSourcesJar()
             withJavadocJar()
-        }
-        multipleVariants("custom") {
-            includeBuildTypeValues("release")
             withSourcesJar()
-            withJavadocJar()
         }
+//        singleVariant("debug") {
+//            withJavadocJar()
+//            withSourcesJar()
+//        }
+//        multipleVariants("allVariants") {
+//            allVariants()
+//            withSourcesJar()
+//            withJavadocJar()
+//        }
+//        multipleVariants("release") {
+//            allVariants()
+//            withSourcesJar()
+//            withJavadocJar()
+//        }
     }
 
     buildTypes {
@@ -44,8 +56,44 @@ android {
     }
 }
 
+//androidComponents {
+//    beforeVariants(selector().withBuildType("debug")) { builder ->
+//        builder.enable = false
+//    }
+//}
+
 afterEvaluate {
-    println("Components: ${components.joinToString { it.name }}")
+    println(
+        "Components: ${
+            components.joinToString {
+                "${it.name} - ${it::class.jvmName}"
+            }
+        }"
+    )
+    publishing {
+        publications {
+//            components.forEach { component ->
+//                register<MavenPublication>(component.name) {
+//                    groupId = "com.my-company"
+//                    artifactId = "my-library-${component.name}"
+//                    version = "1.0"
+//                    from(components["custom"])
+//                }
+//            }
+            register<MavenPublication>("release") {
+                groupId = "com.my-company"
+                artifactId = "kotlinlibrary"
+                version = "1.0.0"
+                from(components["release"])
+            }
+//            register<MavenPublication>("allVariants") {
+//                groupId = "com.my-company"
+//                artifactId = "my-library"
+//                version = "1.0"
+//                from(components["allVariants"])
+//            }
+        }
+    }
 }
 
 dependencies {

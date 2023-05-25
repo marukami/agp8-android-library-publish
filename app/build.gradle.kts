@@ -17,6 +17,9 @@ android {
     }
 
     buildTypes {
+//        getByName("debug") {
+//            matchingFallbacks += "release"
+//        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -29,7 +32,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    flavorDimensions += ""
+    flavorDimensions += "iceCream"
     productFlavors {
         register("chocolate")
         register("vanilla")
@@ -40,7 +43,7 @@ dependencies {
 
     implementation(project(":multilibrary"))
     implementation(project(":multikotlinlibrary"))
-    implementation(project(":singlelibrary"))
+    implementation("com.my-company:kotlinlibrary:1.0.0")
     implementation(project(":singlekotlinlibrary"))
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

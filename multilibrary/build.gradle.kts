@@ -4,22 +4,24 @@ plugins {
 }
 
 android {
-    namespace = "com.example.library"
+    namespace = "com.example.multilibrary"
     compileSdk = 33
 
     publishing {
         multipleVariants("release") {
-            includeBuildTypeValues("release")
-            includeFlavorDimensionAndValues("")
+            allVariants()
+//            includeBuildTypeValues("release")
+//            includeFlavorDimensionAndValues("iceCream")
             withSourcesJar()
             withJavadocJar()
         }
     }
-    flavorDimensions += ""
+    flavorDimensions += "iceCream"
     productFlavors {
         register("chocolate")
         register("vanilla")
     }
+
 
     defaultConfig {
         minSdk = 28
